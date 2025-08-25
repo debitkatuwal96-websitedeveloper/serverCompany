@@ -8,11 +8,15 @@ const morgan = require('morgan');
 const errorHandler = require('./middleware/errorHandler');
 
 // Routes
-const studentRoutes = require('./routes/studentRoutes');
-const clientRoutes = require('./routes/clientRoutes');
+// const studentRoutes = require('./routes/studentRoutes');
+// const clientRoutes = require('./routes/clientRoutes');
 
 const app = express();
 connectDB();
+
+
+app.use(express.urlencoded({ extended: true }));
+
 
 // Middlewares
 app.use(cors());
@@ -26,8 +30,8 @@ const limiter = rateLimit({ windowMs: 15 * 60 * 1000, max: 100 });
 app.use(limiter);
 
 // API Routes
-app.use('/api/students', studentRoutes);
-app.use('/api/clients', clientRoutes);
+app.use('/api/students', require('./routes/studentRoutes'));
+app.use('/api/clients', require('./routes/clientRoutes'));
 
 // Error handler
 app.use(errorHandler);
